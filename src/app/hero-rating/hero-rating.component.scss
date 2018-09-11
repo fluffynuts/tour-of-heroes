@@ -1,0 +1,22 @@
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px 4px;
+  svg {
+    transform: scale(1.8)
+  }
+  &.selected svg path {
+    fill: #fdff00;
+  }
+}
+div.centered {
+  width: 50%;
+  min-width: 150px;
+  margin: auto;
+  text-align: center;
+}
+
+span {
+  margin: auto;
+}

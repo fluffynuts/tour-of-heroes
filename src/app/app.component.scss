@@ -5,19 +5,54 @@ h1 {
   font-size: 250%;
   text-align: center;
 }
+
 h2, h3 {
   color: #444;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
+
 body {
   margin: 2em;
 }
+
 body, input[text], button {
   color: #888;
   font-family: Cambria, Georgia, serif;
 }
+
 /* everywhere else */
 * {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+nav {
+  a {
+    padding: 5px 10px;
+    margin: 2px 10px 2px 0;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #eee;
+    border-radius: 4px;
+    &:visited, &:link {
+      color: #607d8b;
+    }
+    &:hover {
+      color: #039be5;
+      background-color: #cfd8dc;
+    }
+    &.active {
+      color: #039be5;
+    }
+  }
+}
+
+app-messages {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-height: 300px;
+  height: 3000px;
+  width: 100%;
+}
+

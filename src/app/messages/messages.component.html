@@ -1,7 +1,9 @@
 <div *ngIf="messageService.hasMessages">
-  <h2>Messages</h2>
-  <button class="clear" (click)="messageService.clear()">clear</button>
-  <div *ngFor="let message of messageService.messages">
-    {{message}}
+  <h2>Messages <button class="clear" (click)="messageService.clear()">clear</button>
+  </h2>
+  <div class="messages" appAutoScroll>
+    <div *ngFor="let message of messageService.messages" class="message">
+      <span class="timestamp">{{ message.date | date:"dd/MM/yyyy HH:mm:ss"}}</span>{{message.message}}
+    </div>
   </div>
 </div>

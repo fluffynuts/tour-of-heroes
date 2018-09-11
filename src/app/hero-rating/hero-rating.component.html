@@ -1,0 +1,26 @@
+<div (onclick)="suppress($event)" *ngIf="hero">
+  <div class="centered">
+    <button *ngFor="let i of [1,2,3,4,5]"
+            (click)="rateHero($event, i)"
+            [ngClass]="{ 'selected' : hero.rating >= i }"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="11.000000px"
+        height="11.000000px"
+        id="svg2">
+        <defs id="defs3"></defs>
+        <g
+          style="fill: transparent"
+          id="layer1">
+          <path
+            style="stroke-opacity:1.0000000;stroke-dashoffset:0.0000000;stroke-miterlimit:40.000000;stroke-linejoin:miter;stroke-width:7.7491493;stroke:#605a00;fill-rule:nonzero;fill-opacity:1.0000000;"
+            id="path2052"
+            d="M 100.00000,50.000000 L 65.371323,61.167920 L 65.450850,97.552826 L 44.128677,68.070074 L 9.5491503,79.389263 L 31.000000,50.000000 L 9.5491503,20.610737 L 44.128677,31.929926 L 65.450850,2.4471742 L 65.371323,38.832080 L 100.00000,50.000000 z "
+            transform="matrix(0.000000,-9.678482e-2,9.678482e-2,0.000000,0.660759,10.80135)">
+          </path>
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>

@@ -1,19 +1,32 @@
-import {TestBed, inject} from "@angular/core/testing";
-import {HeroService} from "./hero.service";
-import {MessageService} from "./message.service";
+import { TestBed, inject, getTestBed } from "@angular/core/testing";
+import { HeroService } from "./hero.service";
+import { MessageService } from "./message.service";
 import "jasmine-expect";
+import { Observable } from "rxjs";
+import { random, name } from "faker";
+import { Hero } from "./models/hero";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 
 
 describe("HeroService", () => {
+  let
+    injector: TestBed,
+    service: HeroService,
+    httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HeroService]
+      imports: [HttpClientTestingModule ],
+      providers: [ HeroService ]
     });
+    injector = getTestBed();
+    service = injector.get(HeroService);
+    httpMock = injector.get(HttpTestingController);
   });
 
-  it("should be created", inject([HeroService], (service: HeroService) => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
   describe(`getHeroes`, () => {
     it(`should return an array of heroes`, done => {
@@ -26,7 +39,7 @@ describe("HeroService", () => {
       spyOn(MessageService.prototype, "clear").and.callFake(
         () => messages.splice(0, messages.length)
       );
-      const sut = new HeroService(new MessageService());
+      const sut = injector.get(HeroService);
       // Act
       sut.getHeroes().subscribe(result => {
         // Assert
@@ -37,6 +50,55 @@ describe("HeroService", () => {
 
         done();
       });
+      const req = httpMock.expectOne("api/heroes");
+      req.flush([
+        "Moo", "Cow", "Bovine"
+      ].map(n => new Hero(n)));
     });
   });
+
+  xdescribe(`getHero`, () => {
+    // FIXME
+    it(`should return the hero identified by the id`, async () => {
+      // Arrange
+      const
+        sut = injector.get(HeroService),
+        fetchAll = promisifyObservable<Hero[]>(sut, sut.getHeroes),
+        fetch = promisifyObservable(sut, sut.getHero),
+        all = await fetchAll(),
+        one = random.arrayElement(all);
+
+      // Act
+      window.setTimeout(() => {
+        console.log("faking single request for", one.id);
+        const req = httpMock.expectOne("api/heroes/" + one.id);
+        req.flush(one);
+      }, 10);
+      const result = await fetch(one.id);
+      // Assert
+      expect(result).toEqual(one);
+    });
+  });
+
+  function promisifyObservable<T>(ctx, func: (...args) => Observable<T>): (...args) => Promise<T> {
+    return (...args) => {
+      return new Promise((resolve, reject) => {
+        func.apply(ctx, args).subscribe(result => {
+          resolve(result);
+        });
+      });
+    };
+  }
+
+  function makeSomeHeroes() {
+    const
+      max = random.number({min: 2, max: 10}),
+      result = [] as Hero[];
+    for (let i = 0; i < max; i++) {
+      result.push(new Hero(name.firstName()));
+    }
+    return result;
+  }
+
+
 });

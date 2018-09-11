@@ -25,7 +25,7 @@ describe("MessageService", () => {
       });
     });
     describe(`adding messages`, () => {
-      fit(`should be able to add a message`, () => {
+      it(`should be able to add a message`, () => {
         // Arrange
         const
           sut = create(),
